@@ -19,7 +19,7 @@ class Album
   def self.search(name)
     results = []
     self.all.each do |album|
-      if album.name == name
+      if album.name.match?(/#{name}/)
         results.push(album)
       end
     end
