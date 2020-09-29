@@ -39,6 +39,11 @@ post('/albums') do
   erb(:albums)
 end
 
+patch('/albums') do
+  @albums = Album.sort
+  erb(:albums)
+end
+
 post('/albums/search') do
   name = params[:search]
   @results = Album.search(name)

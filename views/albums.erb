@@ -8,6 +8,10 @@
       <li><a href="/albums/<%= album.id %>"><%= album.name %></a></li>
     <% end %>
   </ul>
+  <form action='/albums' method="post">
+    <input name="_method" type="hidden" value="patch">
+    <button type="submit">Sort Albums Alphabeticlly</button>
+  </form>
 <% else %>
   <p>There are currently no records to display.</p>
 <% end %>
@@ -21,3 +25,4 @@
   </div>
   <button type="submit" class="btn">Go!</button>
 </form>
+

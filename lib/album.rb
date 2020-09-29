@@ -19,7 +19,7 @@ class Album
   def self.search(name)
     results = []
     self.all.each do |album|
-      if album.name.match?(/#{name}/)
+      if album.name.match?(/#{name}/i)
         results.push(album)
       end
     end
@@ -46,6 +46,10 @@ class Album
 
   def self.find(id)
     @@albums[id]
+  end
+
+  def self.sort
+    @albums_sorted = @@albums.values.sort_by {|album| album.name}
   end
 
   def update(name, year, genre, artist)

@@ -81,4 +81,16 @@ describe('#Album') do
       expect(Album.search("Blue")).to(eq([album2]))
     end
   end
+
+  describe('.sort') do
+    it('sorts the albums hash by name alphabetically') do
+      album = Album.new("Giant Steps", nil, nil, nil, nil)
+      album.save()
+      album2 = Album.new("Blue", nil, nil, nil, nil)
+      album2.save()
+      album3 = Album.new("In Rainbows", nil, nil, nil, nil)
+      album3.save()
+      expect(Album.sort).to(eq([album2, album, album3]))
+    end
+  end
 end
