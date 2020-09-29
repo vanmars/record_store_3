@@ -93,4 +93,28 @@ describe('#Album') do
       expect(Album.sort).to(eq([album2, album, album3]))
     end
   end
+
+  describe('#sold') do
+    it('moves album to the @@sold_albums class variable') do
+      album = Album.new("Giant Steps", nil, nil, nil, nil)
+      album.save()
+      album2 = Album.new("Blue", nil, nil, nil, nil)
+      album2.save()
+      album2.sold()
+      expect(Album.sold_albums).to(eq([album2]))
+      expect(Album.all).to(eq([album]))
+    end
+  end
+
+  describe('#songs') do
+    it("returns an album's songs") do
+      album = Album.new("Giant Steps", nil)
+      album.save()
+      song = Song.new("Naima", album.id, nil)
+      song.save()
+      song2 = Song.new("Cousin Mary", album.id, nil)
+      song2.save()
+      expect(album.songs).to(eq([song, song2]))
+    end
+  end
 end
