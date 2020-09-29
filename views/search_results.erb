@@ -1,0 +1,15 @@
+<h1>All Sales Vinyl</h1>
+
+<h3>Search Results</h3>
+
+<% if @results.any? %>
+  <ul>
+    <% @results.each do |album| %>
+      <li><a href="/albums/<%= album.id %>"><%= album.name %></a></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>There are no results matching your search.</p>
+<% end %>
+
+<a href="/albums">Return to Albums Page</a>
