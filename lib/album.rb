@@ -1,13 +1,13 @@
 class Album
-  attr_reader :id, :name, :year, :genre, :artist, :sold_albums, :albums #Our new save method will need reader methods.
+  attr_reader :id, :name, :year, :genre, :artist, :sold_albums, :albums 
 
   @@albums = {}
-  @@total_rows = 0 # We've added a class variable to keep track of total rows and increment the value when an ALbum is added.
+  @@total_rows = 0 
   @@sold_albums = {}
 
-  def initialize(name, id, year, genre, artist) # We've added id as a second parameter.
+  def initialize(name, id, year, genre, artist) 
     @name = name
-    @id = id || @@total_rows += 1  # We've added code to handle the id.
+    @id = id || @@total_rows += 1  
     @year = year
     @genre = genre
     @artist = artist
