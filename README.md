@@ -1,14 +1,14 @@
-# _All Vinyls Record Store, part 2_
+# _All Vinyls Record Store, part 3_
 
 _28 September 2020_
 
 #### _Web app for fake record store_
 
-#### By _**Joseph Karnafel and Vanessa Stewart**_
+#### By _**Vanessa Stewart**_
 
 ## Description
 
-_This is a practice exercise for Epicodus to practice adding CRUD funtionality to a Ruby application with Sinatra. This is a basic web app that allows users to add, read, update, and delete albums from a record store. This project add onto part 1 by adding a second class of songs also have CRUD functionality._
+_This is a practice exercise for Epicodus to practice adding CRUD funtionality to a Ruby application with Sinatra. This is a basic web app that allows users to add, read, update, and delete albums from a record store. This project adds onto part 2 by makes changes to a database instead of class variables._
 
 ## Setup/Installation Requirements
 
@@ -31,7 +31,7 @@ _There are no known bugs at this time._
 
 ### License
 
-Copyright (c) 2020 **_Joseph Karnafel and Vanessa Stewart_**
+Copyright (c) 2020 **_Vanessa Stewart_**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
