@@ -28,6 +28,7 @@ _There are no known bugs at this time._
 * Bootstrap
 * Ruby
 * Ruby Gems: Capybara, PG, Pry, RSpec, Sinatra, Sintara-Contrib
+* SQL/psql/postgres
 
 ### License
 
