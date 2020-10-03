@@ -27,7 +27,7 @@ _There are no known bugs at this time._
 * HTML
 * Bootstrap
 * Ruby
-* Ruby Gems: Pry, RSpec, Sinatra, Sintara-Contrib
+* Ruby Gems: Capybara, PG, Pry, RSpec, Sinatra, Sintara-Contrib
 
 ### License
 
