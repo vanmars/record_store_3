@@ -1,43 +1,30 @@
 class Album
   attr_reader :id, :name, :year, :genre, :artist, :sold_albums, :albums 
+  attr_accessor :name
 
-  @@albums = {}
-  @@total_rows = 0 
-  @@sold_albums = {}
+  # @@albums = {}
+  # @@total_rows = 0 
+  # @@sold_albums = {}
 
-  def initialize(name, id, year, genre, artist) 
-    @name = name
-    @id = id || @@total_rows += 1  
-    @year = year
-    @genre = genre
-    @artist = artist
+  def initialize(attributes) 
+    @name = attributes.fetch(:name)
+    @id = attributes.fetch(:id)
   end
 
   def self.all
-    @@albums.values()
-  end
-
-  def self.sold_albums
-    @@sold_albums.values()
-  end
-
-  def self.search(name)
-    results = []
-    self.all.each do |album|
-      if album.name.match?(/#{name}/i)
-        results.push(album)
-      end
+    returned_albums = DB.exec("SELECT * FROM albums;")
+    albums = []
+    returned_albums.each() do |album|
+      name = album.fetch("name")
+      id = album.fetch("id").to_i
+      albums.push(Album.new({:name => name, :id => id}))
     end
-    results
+    albums
   end
-
-  # def self.searh(name)
-  #   result = self.all.select {|album| album.name.include?(name)}
-  #   return result
-  # end
 
   def save
-    @@albums[self.id] = Album.new(self.name, self.id, self.year, self.genre, self.artist)
+    result = DB.exec("INSERT INTO albums (name) VALUES ('#{@name}') RETURNING id;")
+    @id = result.first().fetch("id").to_i
   end
 
   def ==(album_to_compare)
@@ -45,35 +32,23 @@ class Album
   end
 
   def self.clear
-    @@albums = {}
-    @@total_rows = 0
+    DB.exec("DELETE FROM albums *;")
   end
 
   def self.find(id)
-    @@albums[id]
+    album = DB.exec("SELECT * FROM albums WHERE id = #{id};").first
+    name = album.fetch("name")
+    id = album.fetch("id").to_i
+    Album.new({:name => name, :id => id})
   end
 
-  def self.sort
-    @albums_sorted = @@albums.values.sort_by {|album| album.name}
-  end
-
-  def update(name, year, genre, artist)
+  def update(name)
     @name = name
-    @year = year
-    @genre = genre
-    @artist = artist
+    DB.exec("UPDATE albums SET name = '#{@name}' WHERE id = #{@id};")
   end
 
   def delete
-    @@albums.delete(self.id)
+    DB.exec("DELETE FROM albums WHERE id = #{@id};")
   end
 
-  def sold
-    @@sold_albums[self.id] = Album.new(self.name, self.id, self.year, self.genre, self.artist)
-    @@albums.delete(self.id)
-  end
-
-  def songs
-    Song.find_by_album(self.id)
-  end
 end
