@@ -2,10 +2,6 @@ class Album
   attr_reader :id, :name, :year, :genre, :artist, :sold_albums, :albums 
   attr_accessor :name
 
-  # @@albums = {}
-  # @@total_rows = 0 
-  # @@sold_albums = {}
-
   def initialize(attributes) 
     @name = attributes.fetch(:name)
     @id = attributes.fetch(:id)
@@ -37,18 +33,23 @@ class Album
 
   def self.find(id)
     album = DB.exec("SELECT * FROM albums WHERE id = #{id};").first
-    name = album.fetch("name")
-    id = album.fetch("id").to_i
-    Album.new({:name => name, :id => id})
+    if album
+      name = album.fetch("name")
+      id = album.fetch("id").to_i
+      Album.new({:name => name, :id => id})
+    else
+      nil
+    end
   end
 
   def update(name)
     @name = name
     DB.exec("UPDATE albums SET name = '#{@name}' WHERE id = #{@id};")
+    DB.exec("DELETE FROM songs WHERE album_id = #{@id};")
   end
 
   def delete
     DB.exec("DELETE FROM albums WHERE id = #{@id};")
   end
-
+  
 end
