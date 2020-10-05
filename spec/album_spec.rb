@@ -73,7 +73,7 @@ describe('#Album') do
       album.save()
       song = Song.new({:name => "Naima", :album_id => album.id, :id => nil})
       song.save()
-      album.delete()
+      song.delete()
       expect(Song.find(song.id)).to(eq(nil))
     end
   end
