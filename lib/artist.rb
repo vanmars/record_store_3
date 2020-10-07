@@ -40,17 +40,61 @@ class Artist
       nil
     end
   end
+ # Old update method
+  # def update(name)
+  #   @name = name
+  #   DB.exec("UPDATE artists SET name = '#{name}' WHERE id = #{self.id};")
+  # end
 
-  def update(name)
-    @name = name
-    DB.exec("UPDATE artists SET name = '#{name}' WHERE id = #{self.id};")
+  # def update(attributes)
+  #   if (attributes.has_key?(:name)) && (attributes.fetch(:name) != nil)
+  #     @name = attributes.fetch(:name)
+  #     DB.exec("UPDATE artists SET name = '#{@name}' WHERE id = #{@id};")
+  #   elsif (attributes.has_key?(:album_name)) && (attributes.fetch(:album_name) != nil)
+  #     album_name = attributes.fetch(:album_name)
+  #     album = DB.exec("SELECT * FROM albums WHERE lower(name)='#{album_name.downcase}';").first
+  #     if album != nil
+  #       DB.exec("INSERT INTO albums_artists (album_id, artist_id) VALUES (#{album['id'].to_i}, #{@id});")
+  #     end
+  #   end
+  # end
+
+  # Playing around with new update method
+  def update(attributes)
+    if (attributes.has_key?(:name)) && (attributes.fetch(:name) != nil)
+      @name = attributes.fetch(:name)
+      DB.exec("UPDATE artists SET name = '#{@name}' WHERE id = #{@id};")
+    elsif (attributes.has_key?(:album_name)) && (attributes.fetch(:album_name) != nil)
+      album_name = attributes.fetch(:album_name)
+      album = DB.exec("SELECT * FROM albums WHERE lower(name)='#{album_name.downcase}';").first
+      if (album != nil) 
+        association = DB.exec("SELECT * FROM albums_artists WHERE artist_id = #{@id} AND album_id = #{album['id'].to_i}").first # Added this as a check to ensure there were not already associations
+        if (association == nil)
+          DB.exec("INSERT INTO albums_artists (album_id, artist_id) VALUES (#{album['id'].to_i}, #{@id}) ;")
+        end
+      elsif (album == nil)
+        new_album = Album.new({name: album_name, id: nil})
+        new_album.save
+        DB.exec("INSERT INTO albums_artists (album_id, artist_id) VALUES (#{new_album.id}, #{@id}) ;")
+      end
+    end
   end
 
   def delete
+    DB.exec("DELETE FROM albums_artists WHERE artist_id = #{@id};")
     DB.exec("DELETE FROM artists WHERE id = #{self.id};")
   end
 
   def albums
+    albums = []
+    results = DB.exec("SELECT album_id FROM albums_artists WHERE artist_id = #{@id};")
+    results.each() do |result|
+      album_id = result.fetch("album_id").to_i()
+      album = DB.exec("SELECT * FROM albums WHERE id = #{album_id};")
+      name = album.first().fetch("name")
+      albums.push(Album.new({:name => name, :id => album_id}))
+    end
+    albums
   end
 
 end
